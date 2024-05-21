@@ -56,28 +56,21 @@ d3.csv("datasets/ccdata.csv").then(data => {
         x.domain(d3.extent(filteredData, d => d.date));
         y.domain([0, (d3.max(filteredData, d => d.mhi)) + 5000]);
 
-        // Update the chart elements based on the filtered data
-        // ...
+    
 
-        // Example: Filtered data log
+        // Filtered data log
         console.log(filteredData);
-    }
+    
 
-    // Call the updateChart function initially
-    updateChart();
+  
 
-    // Add an event listener to the dropdown menu to update the chart when the selection changes
-    d3.select("#countyDropdown").on("change", updateChart);
-
-    // ...
+ 
 
 
 
     //Filter the data to include only data from one county
    //filteredData = data.filter(function (d) { return d.county == "Maricopa County" });
 
-
-    // WRITE A FUNCTION THAT UPDATES THE CHART BASED ON THE SELECTED COUNTY
 
     
 
@@ -162,7 +155,14 @@ d3.csv("datasets/ccdata.csv").then(data => {
         .attr("d", lineInfant)
         .style("fill", "none")
         .style("stroke", "orange") // CHANGE THE COLOR LATER
-        .style("stroke-width", 2); // CHANGE THE WIDTH LATER
+        .style("stroke-width", 2); // CHANGE THE WIDTH LATER 
+    }
+
+  // Call the updateChart function initially
+  updateChart();
+
+  // Add an event listener to the dropdown menu to update the chart when the selection changes
+  d3.select("#countyDropdown").on("change", updateChart);
 
     // ADD THE LEGEND
 
