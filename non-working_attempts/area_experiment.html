@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Line</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+</head>
+
+<body>
+    <div id="areachart"></div>
+    <script type="text/javascript">
+        // CONSTANTS/GLOBAL VARIABLES  
+        const w = 750;
+        const h = 500;
+        const margin = 50;
+        const parseTime = d3.timeParse("%Y");
+
+        //DATA SOURCE
+        d3.csv("datasets/ccdata.csv").then(data => {
+            console.log("data", data);
+
+            data.forEach(d => {
+                d.year = parseTime(d.year);
+                d.mhi = +d.mhi;
+            });
+
+            // SCALES - WITH SCALE TIME
+            const xScale = d3.scaleTime()
+                .domain(d3.extent(data, d => d.year))
+                .range([margin + 5, w - margin]);
+
+            const yScale = d3.scaleLinear()
+                .domain([40000, 80000])
+                .range([h - margin - 5, margin]);
+
+            // AREA GENERATOR
+            const area = d3.area()
+                .x(d => xScale(d.year))
+                .y0(h - margin)
+                .y1(d => yScale(d.mhi));
+
+            // SVG ELEMENT
+            const svg = d3.select("#areachart")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+            // AREA PATH
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "steelblue")
+                .attr("d", area);
+        });</script>
+</body></html>
+
+                

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v7.js"></script>
+</head>
+
+<body>
+    <div id="chart"></div>
+
+    <script>
+   
+
+    /* d3.csv("https://raw.githubusercontent.com/kalidogg/UCB/main/DebtPenny6.csv", function(d) {
+        return { date : d3.timeParse("%Y-%m-%d")(d.date), value : +d.value } */
+     //DATA SOURCE
+     d3.csv("datasets/ccdata.csv").then(data => {
+            console.log("data", data);
+
+            data.forEach(d => {
+                d.year = d.year;
+                d.mhi = +d.mhi;
+            });
+
+    
+        // set up
+
+        const margin = { top: 10, bottom: 30, left: 50, right: 10};
+
+        const width = 600 - margin.left - margin.right;
+        const height = 200 - margin.top - margin.bottom;
+
+        const svg = d3.select('#chart')
+          .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom);
+
+        const g = svg.append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        // filter and sort data
+
+        data = data
+           // .filter(d => !isNaN(d.value))
+         ///  .sort((a, b) => d3.ascending(a.year, b.year));
+
+        // scales
+
+        const x = d3.scaleTime()
+            .domain(d3.extent(data, d => d.year))
+            .range([0, width]);
+        
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.mhi)])
+            .range([height, 0]);
+
+        // area generator
+
+        const area = d3.area()
+            .x(d => x(d.year))
+            .y0(y(25000))
+            .y1(d => y(d.mhi));
+
+        // Add the area and top line
+
+        g.append("path")
+            .datum(data)
+            .attr("fill", "#cce5df")
+            .attr("d", area);
+       
+        g.append("path")
+            .datum(data)
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 1.5)
+            .attr("fill", "none")
+            .attr("d", area.lineY1());
+       
+        // Axes
+        
+        g.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x));
+        
+        g.append("g")
+            .call(d3.axisLeft(y)
+                    .tickFormat(d3.format('~s'))
+                    .tickSizeOuter(0));
+      })
+    </script>
+</body>
+</html>

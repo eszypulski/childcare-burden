@@ -1,0 +1,10 @@
+path {
+  
+    stroke: rgb(125, 105, 179);
+    stroke-width: 1.5;
+}
+
+.area {
+    fill: lightsteelblue;
+    stroke-width: 0;
+}

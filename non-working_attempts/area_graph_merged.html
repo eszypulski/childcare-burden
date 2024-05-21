@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Line</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+</head>
+
+<body>
+    <div id="areachart"></div>
+    <script type="text/javascript">
+        // CONSTANTS/GLOBAL VARIABLES  
+        const w = 750;
+        const h = 500;
+        const margin = 50;
+        const parseTime = d3.timeParse("%Y");
+
+        //DATA SOURCE
+        d3.csv("datasets/ccdata.csv").then(data => {
+            console.log("data", data);
+
+            data.forEach(d => {
+                d.year = parseTime(d.year);
+                d.mhi = +d.mhi;
+            });
+
+        // SCALES - WITH SCALE TIME
+        const x = d3.scaleTime()
+            .domain(d3.extent(data, d => d.year))
+            .range([margin + 5, w - margin]);
+
+        const y = d3.scaleLinear()
+            .domain([40000, 80000])
+            .range([h - margin - 5, margin]);
+
+
+        
+
+        // DECLARE THE AREA GENERATOR
+        const area = d3.area()
+            .x(d => x(d.year))
+            .y0(y(0))
+            .y1(d => y(d.mhi));
+
+        
+
+        // DECLARE THE SVG CONTAINER
+        const svg = d3.select("#areachart")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        
+
+
+        svg.append("path")
+            .attr("fill", "steelblue")
+            .attr("d", area(data));
+
+
+            svg.append("path")
+            .datum(data)
+            .attr("stroke", "green")
+            .attr("stroke-width", 1.5)
+            .attr("fill", "none")
+            .attr("d", area.lineY1());
+
+            // BOTTOM AXIS WITH TICK TIME FORMATTING
+            const bottomAxis = d3.axisBottom(x);
+
+            svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + (h - margin) + ")")
+                .call(bottomAxis);
+
+            // LEFT AXIS
+            const leftAxis = d3.axisLeft(y);
+
+            svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(" + margin + ",0)")
+                .call(leftAxis);
+
+        });
+    </script>
+</body>
+
+</html>
