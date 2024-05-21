@@ -44,129 +44,98 @@ d3.csv("datasets/ccdata.csv").then(data => {
         .append("option")
         .text(function (d) { return d; });
 
-    // Function to update the chart based on the selected county
-    function updateChart() {
-        // Get the selected county from the dropdown menu
-        let selectedCounty = d3.select("#countyDropdown").property("value");
+     // SET UP THE LINE GENERATOR
+const line = d3.line()
+.x(d => x(d.date));
 
-        // Filter the data to include only data from the selected county
-        filteredData = data.filter(function (d) { return d.county === selectedCounty; });
+// SET UP THE AREA GENERATOR
+const area = d3.area()
+.x(d => x(d.date))
+.y0(height - 10);
 
-        // SET THE X AND Y DOMAINS
-        x.domain(d3.extent(filteredData, d => d.date));
-        y.domain([0, (d3.max(filteredData, d => d.mhi)) + 5000]);
+// ADD THE X-AXIS
+svg.append("g")
+.attr("class", "x-axis")
+.attr("transform", `translate(0, ${height})`);
 
-    
+// ADD THE Y-AXIS
+svg.append("g")
+.attr("class", "y-axis")
+.attr("transform", `translate(${width}, 0)`);
 
-        // Filtered data log
-        console.log(filteredData);
-    
+// ADD THE AREA PATH TO THE CHART
+svg.append("path")
+.attr("class", "area mhi")
+.style("fill", "#85bb65") // CHANGE THE COLOR LATER
+.style("opacity", .5); // CHANGE THE OPACITY LATER
 
-  
+// ADD THE LINE PATH TO THE CHART
+svg.append("path")
+.attr("class", "line mhi")
+.style("fill", "none")
+.style("stroke", "#85bb65") // CHANGE THE COLOR LATER
+.style("stroke-width", 2); // CHANGE THE WIDTH LATER
 
- 
+// SET UP THE INFANT CARE LINE GENERATOR
+const lineInfant = d3.line()
+.x(d => x(d.date));
 
+// SET UP THE AREA GENERATOR
+const areaInfant = d3.area()
+.x(d => x(d.date))
+.y0(height - 10);
 
+// ADD THE AREA PATH TO THE CHART
+svg.append("path")
+.attr("class", "area mcinfant")
+.style("fill", "orange") // CHANGE THE COLOR LATER
+.style("opacity", .5); // CHANGE THE OPACITY LATER
 
-    //Filter the data to include only data from one county
-   //filteredData = data.filter(function (d) { return d.county == "Maricopa County" });
+// ADD THE LINE PATH TO THE CHART
+svg.append("path")
+.attr("class", "line mcinfant")
+.style("fill", "none")
+.style("stroke", "orange") // CHANGE THE COLOR LATER
+.style("stroke-width", 2); // CHANGE THE WIDTH LATER 
 
+// Function to update the chart based on the selected county
+function updateChart() {
+// Get the selected county from the dropdown menu
+let selectedCounty = d3.select("#countyDropdown").property("value");
 
-    
+// Filter the data to include only data from the selected county
+filteredData = data.filter(function (d) { return d.county === selectedCounty; });
 
-    // SET THE X AND Y DOMAINS
+// SET THE X AND Y DOMAINS
+x.domain(d3.extent(filteredData, d => d.date));
+y.domain([0, (d3.max(data, d => d.mhi)) + 2000]);
 
-    x.domain(d3.extent(filteredData, d => d.date));
-    y.domain([0, (d3.max(filteredData, d => d.mhi)) + 5000]); // REVISIT THIS LATER - SHOULDN'T MATCH EXACTLY
+// Update the axes
+svg.select(".x-axis").call(d3.axisBottom(x));
+svg.select(".y-axis").call(d3.axisRight(y).ticks(12));
 
+// Update the area and line paths
+svg.select(".area.mhi")
+    .datum(filteredData)
+    .attr("d", area.y1(d => y(d.mhi)));
 
-    // ADD THE X-AXIS
+svg.select(".line.mhi")
+    .datum(filteredData)
+    .attr("d", line.y(d => y(d.mhi)));
 
-    svg.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x))
+svg.select(".area.mcinfant")
+    .datum(filteredData)
+    .attr("d", areaInfant.y1(d => y(d.mcinfant)));
 
-    // ADD THE Y-AXIS
+svg.select(".line.mcinfant")
+    .datum(filteredData)
+    .attr("d", lineInfant.y(d => y(d.mcinfant)));
+}
 
-    svg.append("g")
-        .attr("transform", `translate(${width}, 0)`)
-        .call(d3.axisRight(y));
+// Call the updateChart function initially
+updateChart();
 
-
-    // SET UP THE LINE GENERATOR
-
-    const line = d3.line()
-        .x(d => x(d.date))
-        .y(d => y(d.mhi));
-
-    // SET UP THE AREA GENERATOR
-
-    const area = d3.area()
-        .x(d => x(d.date))
-        .y0(height - 10)
-        .y1(d => y(d.mhi));
-
-    // ADD THE AREA PATH TO THE CHART
-
-    svg.append("path")
-        .datum(filteredData)
-        .attr("class", "area")
-        .attr("d", area)
-        .style("fill", "#85bb65") // CHANGE THE COLOR LATER
-        .style("opacity", .5); // CHANGE THE OPACITY LATER
-
-    // ADD THE LINE PATH TO THE CHART
-    svg.append("path")
-        .datum(filteredData)
-        .attr("class", "line")
-        .attr("d", line)
-        .style("fill", "none")
-        .style("stroke", "#85bb65") // CHANGE THE COLOR LATER
-        .style("stroke-width", 2); // CHANGE THE WIDTH LATER
-
-
-
-    // SET UP THE INFANT CARE LINE GENERATOR
-
-    const lineInfant = d3.line()
-        .x(d => x(d.date))
-        .y(d => y(d.mcinfant));
-
-    // SET UP THE AREA GENERATOR
-
-    const areaInfant = d3.area()
-        .x(d => x(d.date))
-        .y0(height - 10)
-        .y1(d => y(d.mcinfant));
-
-    // ADD THE AREA PATH TO THE CHART
-
-    svg.append("path")
-        .datum(filteredData)
-        .attr("class", "area")
-        .attr("d", areaInfant)
-        .style("fill", "orange") // CHANGE THE COLOR LATER
-        .style("opacity", .5); // CHANGE THE OPACITY LATER
-
-    // ADD THE LINE PATH TO THE CHART
-    svg.append("path")
-        .datum(filteredData)
-        .attr("class", "line")
-        .attr("d", lineInfant)
-        .style("fill", "none")
-        .style("stroke", "orange") // CHANGE THE COLOR LATER
-        .style("stroke-width", 2); // CHANGE THE WIDTH LATER 
-    }
-
-  // Call the updateChart function initially
-  updateChart();
-
-  // Add an event listener to the dropdown menu to update the chart when the selection changes
-  d3.select("#countyDropdown").on("change", updateChart);
-
-    // ADD THE LEGEND
+// Add an event listener to the dropdown menu to update the chart when the selection changes
+d3.select("#countyDropdown").on("change", updateChart); })
 
 
-
-
-})
