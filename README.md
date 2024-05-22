@@ -1,2 +1,2 @@
-# childcare-burden-nyc
-Three Views of the Childcare Affordability Crisis in NYC
+
+Two views of the childcare affordability crisis in the United States' most populous counties.
