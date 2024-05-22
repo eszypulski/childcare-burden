@@ -1,10 +1,87 @@
-path {
-  
-    stroke: rgb(125, 105, 179);
-    stroke-width: 1.5;
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #f9fdfc;
+  padding-left: 20px;
+  padding-right: 40px;
 }
 
-.area {
-    fill: lightsteelblue;
-    stroke-width: 0;
+.green {
+  color: #21897E;
+  font-weight:bold;
 }
+
+.blue {
+  color: #7EBCE6;
+  font-weight:bold;
+}
+a {
+  color:#577CB3;
+}
+#vizDivs{
+  width: 100%;
+  display: inline-flex;
+
+}
+
+#leftDiv{
+  width: 50%;
+
+}
+
+#rightDiv{
+width:50%;
+
+}
+.explanation {
+  margin-right: 40px;
+  margin-left: 20px;
+;
+}
+ 
+ text {
+    font-family: lato;
+    font-size: 9px;
+    fill: #333333;
+  }
+  .grid path {
+    stroke-width: 0;
+    stroke: #333333;
+  }
+  .grid .tick line {
+    stroke: #333333;
+    stroke-width: 0.3px;
+    stroke-opacity: 0.3;
+  }
+  text.chart-title {
+    font-size: 14px;
+    font-weight: bold;
+    fill:#222222
+  }
+  text.chart-label {
+    font-size: 10px;
+    font-weight: 400;
+    fill: #999999;
+  }
+  text.chart-source {
+    font-size: 8px;
+    fill: #999999;
+  }
+  text.copyright {
+    font-size: 8px;
+    fill: #999999;
+  }
+  .tooltip {
+    background-color: #ffffff;
+    font-family: lato;
+    font-size: 11px;
+    padding: 4px;
+    color: #666666;
+    border: none;
+    box-shadow: 0px 0px 3px 0px #E6E6E6;
+  }
+  .legend{
+    font-size: 10px;
+  }

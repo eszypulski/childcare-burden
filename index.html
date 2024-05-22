@@ -3,17 +3,58 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Three Views of the Childcare Affordability Crisis in NYC</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-
+    <title>Two Views of Childcare Affordability in America's Most Populous Counties</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
 
 </head>
-<body>
+
+<body> 
     
-<h2>This is the page where my visualizations will live. </h2>
-<p>Here are my draft visualizations:</p>
-<ul>
-    <li><a href="area_graph.html">An area graph that shows median household income over time, as well as average infant childcare cost over the same period.</a></li>
-    <li><a href="squeeze_graph.html">A vertical normalized chart illustrating the “squeeze” of rising housing costs and rising childcare costs over time, both reflected as a percentage of household income.</a></li>
-</ul>
+<div id="header"><h2>Two Views of Childcare Affordability in America's Most Populous Counties</h1>
+<p>In the United States, the largest counties have the highest childcare costs. These visualizations use data from the <a href="https://www.census.gov/programs-surveys/acs">Census Bureau's American Community survey</a> and the <a href="https://www.dol.gov/agencies/wb/topics/featured-childcare?_ga=2.142768381.913735267.1716344759-1093376893.1714408553">National Database of Childcare Prices</a> to examine the burden this places on American families.</p> 
+<p>The five most populous counties in the United States are:
+    <ul>
+        <li>Los Angeles County, California</li>
+        <li>Cook County, Illinois</li>
+        <li>Harris County, Texas</li>
+        <li>Maricopa County, Arizona</li>
+        <li>San Diego County, California</li>
+    </ul>
+</p>
+<p>Note: The most recent data from the National Database of Childcare Prices is from 2018. Smaller surveys from the past six years suggest that the price of childcare has gone up dramatically since then, especially in the post-pandemic years. Centers across the country have shut down, leaving fewer slots for children and driving higher prices. </p>
+</div>
+<div id="vizDivs">
+<div id = "leftDiv">
+    <div class="explanation">
+        <h3>Median Household Income and Median Infant Care Costs</h3>
+   <p>This graph compares median household income from 2008 - 2018 (shown in gray) with the average cost of care for one infant at a licensed childcare center (shown in <span class="green">green</span>). </p>
+   <p>According to the federal government, affordable childcare should account for no more than 7% of a family's total income. In these counties, as well as the majority of counties across the country, the cost of childcare far exceeds what is considered affordable by this standard.</p>
+<div id = "areachartCountyLabel" class = "buttonLabel">
+    See data for a specific county:
+</div>
+<div id = "dropdownDiv">
+    <select id="countyDropdown">
+      </select>
+
+</div><div id="buttonDiv">
+Compare the actual median cost of care for one infant with the "affordable" cost of 7% of median household income over the same period.
+</br>
+    <button type="button" class="comparison" id ="buttonActual">Actual Cost of Childcare</button>
+
+    <button type="button" class="comparison" id="buttonBenchmark">Federal Benchmark for Childcare Affordability</button>
+</div></div>
+    <div id="areachart">
+    </div>
+    <script src="areachartscript.js"></script>
+
+</div>
+ 
+<div id = "rightDiv">
+    <div class="explanation">
+        <h3>The Squeeze: Childcare and Rent as a Percentage of Household Income, 2018</h3>
+        <p>This graph shows childcare (in <span class="blue">blue</span>) and average rental costs (in <span class="green">green</span>) as percentages of median household income. The gray portion is the percentage of income an average household would have left after paying for childcare and rent each month. This is the money left for food, utilities, car payments, debt, savings, clothing, medical bills, and any other expenses a family might encounter.</div>
+<div id="viz_container"></div>
+   <script src="bar.js"></script> </body>
+    </html></div></div>
