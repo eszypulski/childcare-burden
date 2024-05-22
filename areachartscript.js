@@ -27,6 +27,7 @@ d3.csv("datasets/ccdata.csv").then(data => {
     // PARSE THE DATA AND CONVERT THE STRINGS TO NUMBERS
     const parseDate = d3.timeParse("%Y");
     let filteredData;
+    let buttonData;
 
     data.forEach(d => {
         d.date = parseDate(d.date);
@@ -137,5 +138,4 @@ updateChart();
 
 // Add an event listener to the dropdown menu to update the chart when the selection changes
 d3.select("#countyDropdown").on("change", updateChart); })
-
 

@@ -1,0 +1,5 @@
+date,county,mhi,totalpop,mcinfant,careburden,benchmark,rentmonthly,rent,rentburden
+2015,Los Angeles County,56196,10038388,16046,0.29,3934,1395,16740,0.30
+2016,Los Angeles County,57952,10057155,16740,0.29,4057,1391,16692,0.29
+2017,Los Angeles County,61015,10105722,17059,0.28,4271,1522,18264,0.30
+2018,Los Angeles County,64251,10098052,17378,0.27,4498,1619,19428,0.30
